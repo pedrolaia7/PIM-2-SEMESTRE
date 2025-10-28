@@ -96,3 +96,21 @@ footer {
   color: #777;
   font-size: 13px;
 }
+
+/* Responsividade para celular */
+@media (max-width: 480px) {
+  .box {
+    width: 90%;
+    padding: 20px;
+    margin-top: 40px;
+    min-width: auto;
+  }
+
+  body {
+    text-align: left;
+  }
+
+  input, select, button {
+    font-size: 16px;
+  }
+}
