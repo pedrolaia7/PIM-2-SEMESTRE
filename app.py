@@ -191,7 +191,6 @@ def portal_professor(ra):
 
     return render_template("portal_professor.html", prof=prof)
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+
 
 
