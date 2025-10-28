@@ -1,0 +1,46 @@
+{
+    "alunos": [
+        {
+            "nome": "Pedro Laia",
+            "ra": "NYH475",
+            "senha": "123",
+            "curso": "An\u00e1lise e Desenvolvimento de Sistemas (ADS)",
+            "notas": {
+                "Python 1": {
+                    "NP1": "8",
+                    "NP2": "9",
+                    "PIM": "10"
+                }
+            }
+        },
+        {
+            "nome": "Lucas",
+            "ra": "XPC816",
+            "senha": "234",
+            "curso": "Engenharia de Software",
+            "notas": {
+                "Modelagem de Sistemas": {
+                    "NP1": "9",
+                    "NP2": "7",
+                    "PIM": "10"
+                }
+            }
+        }
+    ],
+    "professores": [
+        {
+            "nome": "Jorge",
+            "ra": "PTO882",
+            "senha": "123",
+            "curso": "An\u00e1lise e Desenvolvimento de Sistemas (ADS)",
+            "materia": "Python 1"
+        },
+        {
+            "nome": "Douglas",
+            "ra": "YAS512",
+            "senha": "456",
+            "curso": "Engenharia de Software",
+            "materia": "Modelagem de Sistemas"
+        }
+    ]
+}

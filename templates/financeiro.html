@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<div class="box">
+  <h2>Financeiro de {{ aluno.nome }}</h2>
+  <p><b>Curso:</b> {{ aluno.curso }}</p>
+  <p><b>Mensalidade atual:</b> R$ {{ "%.2f"|format(valor) }}</p>
+  {% if aluno.dp %}<p class="erro">+ R$100 de DP</p>{% endif %}
+
+  <h3>Mensalidades:</h3>
+  <ul>
+    {% for mes in meses %}
+      <li>{{ mes }} — R$ {{ "%.2f"|format(valor) }}</li>
+    {% endfor %}
+  </ul>
+  <p><a href="/aluno/{{ aluno.ra }}">Voltar</a></p>
+</div>
+{% endblock %}
+

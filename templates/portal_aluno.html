@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<div class="box">
+  <h2>Bem-vindo(a), {{ aluno.nome }}</h2>
+  <p><b>Curso:</b> {{ aluno.curso }}</p>
+  <p><b>Modalidade:</b> {{ aluno.modalidade }}</p>
+  <p><b>Bolsa:</b> {{ aluno.bolsa_percent }}%</p>
+  <a href="/notas/{{ aluno.ra }}">Ver Notas</a> |
+  <a href="/financeiro/{{ aluno.ra }}">Financeiro</a> |
+  <a href="/">Sair</a>
+</div>
+{% endblock %}
+

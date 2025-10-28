@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<div class="box">
+  <h2>Cadastro</h2>
+  {% if erro %}<p class="erro">{{ erro }}</p>{% endif %}
+  {% if sucesso %}<p class="sucesso">{{ sucesso }}</p>{% endif %}
+
+  <form method="post">
+    <p>Tipo:
+      <select id="tipo" name="tipo">
+        <option value="aluno">Aluno</option>
+        <option value="professor">Professor</option>
+      </select>
+    </p>
+
+    <p>Nome completo:<br><input name="nome" required></p>
+    <p>Senha:<br><input type="password" name="senha" required></p>
+
+    <p>Curso:
+      <select name="curso">
+        <option value="1">Análise e Desenvolvimento de Sistemas (ADS)</option>
+        <option value="2">Engenharia de Software</option>
+        <option value="3">Ciência da Computação</option>
+        <option value="4">Gestão da Tecnologia da Informação</option>
+        <option value="5">Segurança da Informação</option>
+      </select>
+    </p>
+
+    <!-- CAMPOS DE ALUNO -->
+    <div id="campos-aluno">
+      <p>Modalidade:
+        <select name="modalidade">
+          <option>Presencial</option>
+          <option>EAD</option>
+          <option>Semi-presencial</option>
+        </select>
+      </p>
+
+      <p>Tem bolsa?
+        <select id="tem-bolsa" name="tem_bolsa">
+          <option value="nao">Não</option>
+          <option value="sim">Sim</option>
+        </select>
+      </p>
+
+      <div id="campos-bolsa">
+        <p>Porcentagem de bolsa:<br>
+          <input type="number" name="bolsa_percent" value="0" min="0" max="100">
+        </p>
+        <p>Código da bolsa:<br>
+          <input name="codigo_bolsa" placeholder="Ex: A123">
+        </p>
+      </div>
+    </div>
+
+    <!-- CAMPOS DE PROFESSOR -->
+    <div id="campos-professor">
+      <p>Matéria que ministra:<br><input name="materia"></p>
+    </div>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+  <p><a href="/">Voltar ao login</a></p>
+</div>
+
+<script>
+  const tipoSelect = document.getElementById("tipo");
+  const camposAluno = document.getElementById("campos-aluno");
+  const camposProfessor = document.getElementById("campos-professor");
+  const temBolsaSelect = document.getElementById("tem-bolsa");
+  const camposBolsa = document.getElementById("campos-bolsa");
+
+  function toggleCampos() {
+    if (tipoSelect.value === "professor") {
+      camposProfessor.style.display = "block";
+      camposAluno.style.display = "none";
+    } else {
+      camposProfessor.style.display = "none";
+      camposAluno.style.display = "block";
+    }
+  }
+
+  function toggleBolsa() {
+    camposBolsa.style.display = temBolsaSelect.value === "sim" ? "block" : "none";
+  }
+
+  tipoSelect.addEventListener("change", toggleCampos);
+  temBolsaSelect.addEventListener("change", toggleBolsa);
+
+  toggleCampos();
+  toggleBolsa();
+</script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<div class="box">
+  <h2>Login no Sistema</h2>
+  {% if erro %}<p class="erro">{{ erro }}</p>{% endif %}
+  <form method="post" action="/login">
+    <p>RA:<br><input name="ra"></p>
+    <p>Senha:<br><input name="senha" type="password"></p>
+    <button type="submit">Entrar</button>
+  </form>
+  <p><a href="/cadastro">Ainda não tem cadastro?</a></p>
+</div>
+{% endblock %}

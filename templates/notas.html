@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<div class="box">
+  <h2>Notas de {{ aluno.nome }}</h2>
+  {% if notas %}
+    {% for mat, ns in notas.items() %}
+      <p><b>{{ mat }}</b>: NP1 {{ ns.NP1 }}, NP2 {{ ns.NP2 }}, PIM {{ ns.PIM }}</p>
+    {% endfor %}
+    <p>{{ aluno.exame_msg }}</p>
+  {% else %}
+    <p>Nenhuma nota postada ainda.</p>
+  {% endif %}
+  <p><a href="/aluno/{{ aluno.ra }}">Voltar</a></p>
+</div>
+{% endblock %}
