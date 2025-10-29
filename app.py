@@ -191,6 +191,34 @@ def portal_professor(ra):
 
     return render_template("portal_professor.html", prof=prof)
 
+@app.route("/chatbot", methods=["POST"])
+def chatbot():
+    data = request.get_json()
+    msg = data.get("message", "").strip().lower()
+
+    respostas = {
+        "1": "A mensalidade varia de acordo com o curso. Você pode consultar o valor exato na aba Financeiro.",
+        "2": "O sistema acadêmico permite acessar notas, boletos, bolsa e histórico escolar.",
+        "3": "Os pagamentos podem ser feitos via boleto ou cartão, diretamente pelo portal do aluno.",
+        "4": "As bolsas variam entre 10% e 70%. Informe seu código de bolsa na matrícula.",
+        "5": "Oferecemos cursos como ADS, Engenharia de Software, Ciência da Computação, Gestão de TI e Segurança da Informação.",
+        "6": "Tudo bem! Um atendente humano entrará em contato com você em breve."
+    }
+
+    resposta = respostas.get(msg)
+    if not resposta:
+        if "mensalidade" in msg:
+            resposta = respostas["1"]
+        elif "pagamento" in msg:
+            resposta = respostas["3"]
+        elif "bolsa" in msg:
+            resposta = respostas["4"]
+        elif "curso" in msg:
+            resposta = respostas["5"]
+        else:
+            resposta = "Desculpe, não entendi muito bem. Tente escolher uma das opções acima 😊"
+
+    return {"resposta": resposta}
 
 
 
