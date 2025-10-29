@@ -191,34 +191,68 @@ def portal_professor(ra):
 
     return render_template("portal_professor.html", prof=prof)
 
+# ===================== Chatbot Junior 2.0 =====================
 @app.route("/chatbot", methods=["POST"])
 def chatbot():
     data = request.get_json()
     msg = data.get("message", "").strip().lower()
 
+    # Histórico simples
+    hist_path = "chat_history.json"
+    if not os.path.exists(hist_path):
+        historico = []
+    else:
+        try:
+            with open(hist_path, "r", encoding="utf-8") as f:
+                historico = json.load(f)
+        except json.JSONDecodeError:
+            historico = []
+
     respostas = {
-        "1": "A mensalidade varia de acordo com o curso. Você pode consultar o valor exato na aba Financeiro.",
-        "2": "O sistema acadêmico permite acessar notas, boletos, bolsa e histórico escolar.",
-        "3": "Os pagamentos podem ser feitos via boleto ou cartão, diretamente pelo portal do aluno.",
-        "4": "As bolsas variam entre 10% e 70%. Informe seu código de bolsa na matrícula.",
-        "5": "Oferecemos cursos como ADS, Engenharia de Software, Ciência da Computação, Gestão de TI e Segurança da Informação.",
-        "6": "Tudo bem! Um atendente humano entrará em contato com você em breve."
+        "mensalidade": "💰 As mensalidades variam de acordo com o curso e a modalidade. Você pode ver o valor exato na aba *Financeiro* do portal.",
+        "sistema": "📘 O sistema acadêmico foi criado para facilitar sua vida. Nele você acessa notas, boletos e informações do curso.",
+        "pagamento": "💳 Os pagamentos podem ser feitos por boleto ou cartão. Caso esteja com atraso, fale com o setor financeiro.",
+        "bolsa": "🎓 As bolsas vão de 5% até 70%. Se você tem um código de bolsa (ex: A123), insira no seu cadastro.",
+        "curso": "🖥️ Nossos cursos incluem: ADS, Engenharia de Software, Ciência da Computação, Gestão de TI e Segurança da Informação.",
+        "outros": "☎️ Tudo bem! Vou registrar seu pedido para atendimento humano. Um atendente entrará em contato em breve."
     }
 
-    resposta = respostas.get(msg)
-    if not resposta:
-        if "mensalidade" in msg:
-            resposta = respostas["1"]
-        elif "pagamento" in msg:
-            resposta = respostas["3"]
-        elif "bolsa" in msg:
-            resposta = respostas["4"]
-        elif "curso" in msg:
-            resposta = respostas["5"]
+    # IA básica
+    if msg in ["1", "mensalidade"]:
+        resposta = respostas["mensalidade"]
+    elif msg in ["2", "como funciona", "sistema", "acadêmico"]:
+        resposta = respostas["sistema"]
+    elif msg in ["3", "pagamento", "boletos", "boleto"]:
+        resposta = respostas["pagamento"]
+    elif msg in ["4", "bolsa", "desconto"]:
+        resposta = respostas["bolsa"]
+    elif msg in ["5", "curso", "cursos", "matéria"]:
+        resposta = respostas["curso"]
+    elif msg in ["6", "atendente", "humano", "suporte"]:
+        resposta = respostas["outros"]
+    elif "obrigado" in msg or "valeu" in msg:
+        resposta = "😄 Que bom poder ajudar! Qualquer coisa é só chamar o Junior novamente!"
+    elif "oi" in msg or "olá" in msg or "ola" in msg:
+        resposta = "👋 Olá! Eu sou o Junior, seu assistente acadêmico. Quer saber sobre mensalidades, cursos ou bolsas?"
+    elif "pim" in msg:
+        resposta = "📚 O PIM é o Projeto Integrado Multidisciplinar. Ele é uma atividade avaliativa prática e importante para a conclusão do semestre!"
+    elif "quem criou você" in msg or "quem te criou" in msg:
+        resposta = "😎 Fui criado por um desenvolvedor talentoso da UNIP — um projeto acadêmico incrível!"
+    else:
+        if any(p in msg for p in ["nota", "prova", "np1", "np2", "pim", "exame"]):
+            resposta = "🧾 As notas ficam disponíveis na aba *Notas*. Caso ainda não apareçam, o professor pode não ter lançado."
+        elif any(p in msg for p in ["financeiro", "mensalidade", "valor", "preço"]):
+            resposta = respostas["mensalidade"]
+        elif any(p in msg for p in ["curso", "matéria", "disciplinas"]):
+            resposta = respostas["curso"]
         else:
-            resposta = "Desculpe, não entendi muito bem. Tente escolher uma das opções acima 😊"
+            resposta = "🤔 Ainda estou aprendendo! Tente reformular sua dúvida ou escolha uma opção de 1 a 6."
+
+    historico.append({"usuario": msg, "resposta": resposta})
+    with open(hist_path, "w", encoding="utf-8") as f:
+        json.dump(historico[-50:], f, indent=4, ensure_ascii=False)
 
     return {"resposta": resposta}
 
-
-
+if __name__ == "__main__":
+    app.run(debug=True)
