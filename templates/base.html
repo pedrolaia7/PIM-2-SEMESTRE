@@ -5,6 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Acadêmico Jalim-Rabei</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        /* ===== Animações do Chat Junior ===== */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideDown {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(40px); }
+        }
+
+        /* Bolinha flutuante */
+        #chatbot-bubble {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 70px;
+            height: 70px;
+            background-color: #004aad;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.25s ease;
+        }
+
+        #chatbot-bubble:hover {
+            transform: scale(1.1);
+        }
+
+        #chatbot-bubble img {
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+        }
+
+        /* Caixa do chat */
+        #chatbot-box {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            width: 330px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.4s ease forwards;
+            z-index: 999;
+        }
+
+        .chat-header {
+            background-color: #004aad;
+            color: white;
+            padding: 12px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-body {
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .chat-body ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .chat-body li {
+            margin: 6px 0;
+            padding: 8px;
+            border-radius: 6px;
+            background-color: #004aad;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .chat-body li:hover {
+            background-color: #003080;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            border: none;
+            padding: 10px;
+            outline: none;
+        }
+
+        .chat-input button {
+            background-color: #004aad;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #003080;
+        }
+    </style>
 </head>
 <body>
     {% block conteudo %}{% endblock %}
@@ -46,9 +164,12 @@
 
         bubble.addEventListener('click', () => {
             box.style.display = 'flex';
+            box.style.animation = 'slideUp 0.4s ease forwards';
         });
+
         closeChat.addEventListener('click', () => {
-            box.style.display = 'none';
+            box.style.animation = 'slideDown 0.4s ease forwards';
+            setTimeout(() => { box.style.display = 'none'; }, 400);
         });
 
         async function sendMessage() {
