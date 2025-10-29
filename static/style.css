@@ -201,4 +201,108 @@ footer {
   padding: 10px 15px;
   cursor: pointer;
 }
+/* ===== Chatbot Bolinha ===== */
+#chatbot-bubble {
+  position: fixed;
+  bottom: 20px;
+  right: 25px;
+  width: 70px;
+  height: 70px;
+  background: #004aad;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+#chatbot-bubble:hover {
+  transform: scale(1.1);
+}
+#chatbot-bubble img {
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+}
+
+/* ===== Caixa de Chat ===== */
+#chatbot-box {
+  position: fixed;
+  bottom: 100px;
+  right: 25px;
+  width: 320px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
+  display: none;
+  flex-direction: column;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.chat-header {
+  background: #004aad;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chat-header span {
+  cursor: pointer;
+}
+
+.chat-body {
+  padding: 15px;
+  font-size: 14px;
+  color: #333;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.chat-body ul {
+  padding: 0;
+  list-style: none;
+}
+.chat-body li {
+  margin: 6px 0;
+  background: #004aad;
+  color: white;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 500;
+  transition: 0.3s;
+}
+.chat-body li:hover {
+  background: #003080;
+}
+
+/* ===== Input ===== */
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+.chat-input input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+.chat-input button {
+  background: #004aad;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+.chat-input button:hover {
+  background: #003080;
+}
 
