@@ -1,67 +1,85 @@
-<!-- Bolinha flutuante do Junior -->
-<div id="chatbot-bubble">
-  <img src="{{ url_for('static', filename='img/junior.png') }}" alt="Junior" />
+<!-- ===== JUNIOR - Assistente Virtual ===== -->
 
+<!-- Bolinha flutuante -->
+<div id="chatbot-bubble" title="Falar com o Junior">
+  <img src="{{ url_for('static', filename='img/junior.png') }}" alt="Junior">
 </div>
 
 <!-- Caixa de chat -->
 <div id="chatbot-box">
-  <div class="chat-header">🤖 Olá! Eu sou o Junior, seu assistente virtual.</div>
+  <div class="chat-header">
+    🤖 Olá! Eu sou o Junior, seu assistente virtual.
+    <span id="close-chat" title="Fechar">✖</span>
+  </div>
+
   <div class="chat-body" id="chat-body">
     <p>Escolha uma opção ou escreva sua dúvida 👇</p>
     <ul>
-      <li onclick="sendOption('1')">1️⃣ Mensalidade</li>
-      <li onclick="sendOption('2')">2️⃣ Como funciona o sistema acadêmico</li>
-      <li onclick="sendOption('3')">3️⃣ Pagamentos</li>
-      <li onclick="sendOption('4')">4️⃣ Bolsa de estudo</li>
-      <li onclick="sendOption('5')">5️⃣ Cursos</li>
-      <li onclick="sendOption('6')">6️⃣ Outros (falar com atendente)</li>
+      <li onclick="sendOption('1')">💰 Mensalidade</li>
+      <li onclick="sendOption('2')">📘 Como funciona o sistema acadêmico</li>
+      <li onclick="sendOption('3')">💳 Pagamentos</li>
+      <li onclick="sendOption('4')">🎓 Bolsa de estudo</li>
+      <li onclick="sendOption('5')">🖥️ Cursos</li>
+      <li onclick="sendOption('6')">☎️ Outros (falar com atendente)</li>
     </ul>
   </div>
+
   <div class="chat-input">
     <input type="text" id="user-input" placeholder="Digite aqui..." />
     <button onclick="sendMessage()">Enviar</button>
   </div>
 </div>
 
+<!-- Script do Chatbot -->
 <script>
-const bubble = document.getElementById('chatbot-bubble');
-const box = document.getElementById('chatbot-box');
-const body = document.getElementById('chat-body');
-const input = document.getElementById('user-input');
+  const bubble = document.getElementById('chatbot-bubble');
+  const box = document.getElementById('chatbot-box');
+  const closeBtn = document.getElementById('close-chat');
+  const body = document.getElementById('chat-body');
+  const input = document.getElementById('user-input');
 
-bubble.addEventListener('click', () => {
-  box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
-});
-
-async function sendMessage() {
-  const msg = input.value.trim();
-  if (!msg) return;
-  appendMessage("Você", msg);
-  input.value = "";
-  const res = await fetch("/chatbot", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ message: msg })
+  // Abrir e fechar o chat
+  bubble.addEventListener('click', () => {
+    box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
   });
-  const data = await res.json();
-  appendMessage("Junior", data.resposta);
-}
-
-async function sendOption(opt) {
-  const res = await fetch("/chatbot", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ message: opt })
+  closeBtn.addEventListener('click', () => {
+    box.style.display = 'none';
   });
-  const data = await res.json();
-  appendMessage("Junior", data.resposta);
-}
 
-function appendMessage(sender, text) {
-  const div = document.createElement("div");
-  div.innerHTML = `<b>${sender}:</b> ${text}`;
-  body.appendChild(div);
-  body.scrollTop = body.scrollHeight;
-}
+  // Enviar mensagem manual
+  async function sendMessage() {
+    const msg = input.value.trim();
+    if (!msg) return;
+    appendMessage("Você", msg);
+    input.value = "";
+
+    const res = await fetch("/chatbot", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ message: msg })
+    });
+    const data = await res.json();
+    appendMessage("Junior", data.resposta);
+  }
+
+  // Enviar opções do menu
+  async function sendOption(opt) {
+    appendMessage("Você", "Opção " + opt);
+    const res = await fetch("/chatbot", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ message: opt })
+    });
+    const data = await res.json();
+    appendMessage("Junior", data.resposta);
+  }
+
+  // Adicionar mensagens na tela
+  function appendMessage(sender, text) {
+    const div = document.createElement("div");
+    div.innerHTML = `<b>${sender}:</b> ${text}`;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
 </script>
+<!-- ===== FIM DO CHATBOT ===== -->
