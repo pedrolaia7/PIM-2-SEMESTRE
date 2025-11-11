@@ -105,7 +105,7 @@ def cadastrar_usuario():
             modalidade = "Presencial"
 
         # ===== BOLSA =====
-        tem_bolsa = input("Você possui bolsa? (s/n): ").strip().lower()
+        tem_bolsa = input("Você possui bolsa? (sim/não): ").strip().lower()
         bolsa_percent = 0
         codigo_bolsa = None
         if tem_bolsa == "s":
